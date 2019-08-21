@@ -1,8 +1,12 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.Math;
 
@@ -387,7 +391,6 @@ public class EvaluationService {
 			while(run) {
 				
 				idx = (min + max) / 2;
-				System.out.printf("%d %d %d\n", min, max, idx);
 				
 				T obj = this.sortedList.get(idx);
 
@@ -454,11 +457,8 @@ public class EvaluationService {
 		
 		boolean flag = true;
 		
-		System.out.println(cleanstr);
-		
 		for(String temp : words) {
 			
-			System.out.println(temp);
 			flag = true;
 			
 			while(flag) {
@@ -501,8 +501,6 @@ public class EvaluationService {
 				}
 			}
 		}
-		
-		System.out.println(ret);
 		return ret.trim();
 	}
 
@@ -550,8 +548,28 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		List<Long> ret = new ArrayList<Long>();
+		
+		boolean flag = true;
+		long cur = l;
+		
+		while(flag) {
+			
+			flag = false;
+			
+			for(long i = 2 ; i <= cur ; i ++) {
+				
+				if(cur % i == 0) {
+					
+					cur = cur / i;
+					ret.add(i);
+					flag = true;
+					break;
+				}
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -589,8 +607,26 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			
+			String ret = "";
+			
+			for(char c : string.toCharArray()) {
+				
+				if(c >= 65 && c <= 90) {
+					
+					ret += (char)((c + key - 65) % 26 + 65); 
+				}
+				else if (c >= 97 && c <= 122) {
+					
+					ret += (char)((c + key - 97) % 26 + 97);
+				}
+				else {
+					
+					ret += c;
+				}
+			}
+			
+			return ret;
 		}
 
 	}
@@ -608,8 +644,27 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		if(i < 1) {
+			
+			throw new IllegalArgumentException();
+		}
+		
+		int ret = 2;
+		int counter = 1;
+		
+		while(counter < i) {
+			
+			ret ++;
+			
+			if(this.calculatePrimeFactorsOf(ret).size() == 1) {
+				
+				counter ++;
+				
+			}
+		}
+		
+		return ret;
 	}
 
 	/**
@@ -645,8 +700,31 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			
+			String ret = "";
+			int counter = 0;
+			
+			for(char c : string.toLowerCase().toCharArray()) {
+				
+				if(c >= 97 && c <= 122) {
+					
+					ret += (char)(219 - c);
+					counter ++;
+				}
+
+				else if(c >= 48 && c <= 57) {
+					
+					ret += c;
+					counter ++;
+				}
+				
+				if(counter == 5) {
+					counter = 0;
+					ret += " ";
+				}
+			}
+			
+			return ret.trim();
 		}
 
 		/**
@@ -656,8 +734,24 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			
+			String ret = "";
+			
+			for(char c : string.toLowerCase().toCharArray()) {
+				
+				if(c >= 97 && c <= 122) {
+					
+					ret += (char)(219 - c);
+				}
+				
+				else if(c >= 48 && c <= 57) {
+					
+					ret += c;
+				}
+				
+			}
+			
+			return ret.trim();
 		}
 	}
 
@@ -684,8 +778,30 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isValidIsbn(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		int sum = 0;
+		int counter = 0;
+		
+		for(char c : string.toUpperCase().toCharArray()) {
+			
+			if (c >= 48 && c <= 57) {
+				
+				sum += (c - 48) * (10 - counter);
+				counter ++;
+			}
+			
+			else if (c == 88) {
+				
+				sum += 10 * (10 - counter);
+				counter ++;
+			}
+			
+			else if(c >= 65 && c <= 90) {
+				
+				return false;
+			}
+		}
+		
+		return sum % 11 == 0;
 	}
 
 	/**
@@ -702,8 +818,18 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		
+		Map<Character, Integer> check = new HashMap<>();
+		
+		for (char c : string.toLowerCase().toCharArray()) {
+			
+			if(c >= 97 && c <= 122) {
+				
+				check.putIfAbsent(new Character(c), 1);
+			}
+		}
+		
+		return check.keySet().size() == 26;
 	}
 
 	/**
@@ -715,8 +841,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		LocalDateTime ret = null;
+		
+		if (given instanceof LocalDate) {
+			ret = LocalDateTime.from(((LocalDate)given).atStartOfDay());
+		}
+		else if(given instanceof LocalDateTime){
+			ret = (LocalDateTime) given;
+		}
+		
+		return ret.plus(1000000000, ChronoUnit.SECONDS);
 	}
 
 	/**
