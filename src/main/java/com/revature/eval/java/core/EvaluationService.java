@@ -3,6 +3,7 @@ package com.revature.eval.java.core;
 import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 public class EvaluationService {
 
@@ -11,11 +12,18 @@ public class EvaluationService {
 	 * reverses a String. Example: reverse("example"); -> "elpmaxe"
 	 * 
 	 * @param string
-	 * @return
+	 * @return string
 	 */
 	public String reverse(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		String ret = "";
+		
+		for(int i = string.length() - 1 ; i >= 0 ; i--) {
+			
+			ret += string.toCharArray()[i];
+		}
+
+		return ret;
 	}
 
 	/**
@@ -27,8 +35,24 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		String ret = "";
+		boolean flag = true;
+		
+		for (char c : phrase.toUpperCase().toCharArray()) {
+			
+			if (flag && !(c < 65 || c > 93)) {
+				ret += c;
+				flag = false;
+			}
+			
+			if (c < 65 || c > 93) {
+				
+				flag = true;
+			}
+		}
+
+		return ret;
 	}
 
 	/**
@@ -81,18 +105,28 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
+			
+			if(this.sideOne == this.sideTwo && this.sideTwo == this.sideThree) {
+				
+				return true;
+			}
+			
 			return false;
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
-			return false;
+
+			if(this.sideOne != this.sideTwo && this.sideTwo != this.sideThree && this.sideOne != this.sideThree) {
+				
+				return false;
+			}
+			
+			return true;
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			
+			return !(this.isIsosceles());
 		}
 
 	}
@@ -110,11 +144,122 @@ public class EvaluationService {
 	 * 3 + 2*1 + 2*3 + 2 + 1 = 3 + 2 + 6 + 3 = 5 + 9 = 14
 	 * 
 	 * @param string
-	 * @return
+	 * @return int
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		int ret = 0;
+		for (char c : string.toLowerCase().toCharArray()) {
+			
+			switch (c) {
+			
+			case 'a':
+				ret += 1;
+				break;
+	
+			case 'e':
+				ret += 1;
+				break;
+			
+			case 'i':
+				ret += 1;
+				break;
+			
+			case 'o':
+				ret += 1;
+				break;
+			
+			case 'u':
+				ret += 1;
+				break;
+				
+			case 'l':
+				ret += 1;
+				break;
+			
+			case 'n':
+				ret += 1;
+				break;
+				
+			case 'r':
+				ret += 1;
+				break;
+				
+			case 's':
+				ret += 1;
+				break;
+				
+			case 't':
+				ret += 1;
+				break;
+			
+			case 'd':
+				ret += 2;
+				break;
+				
+			case 'g':
+				ret += 2;
+				break;
+				
+			case 'b':
+				ret += 3;
+				break;
+			
+			case 'c':
+				ret += 3;
+				break;
+				
+			case 'm':
+				ret += 3;
+				break;
+			
+			case 'p':
+				ret += 3;
+				break;
+			
+			case 'f':
+				ret += 4;
+				break;
+			
+			case 'h':
+				ret += 4;
+				break;
+			
+			case 'v':
+				ret += 4;
+				break;
+			
+			case 'w':
+				ret += 4;
+				break;
+				
+			case 'y':
+				ret += 4;
+				break;
+			
+			case 'k':
+				ret += 5;
+				break;
+			
+			case 'j':
+				ret += 8;
+				break;
+			
+			case 'x':
+				ret += 8;
+				break;
+			
+			case 'q':
+				ret += 10;
+				break;
+			
+			case 'z':
+				ret += 10;
+				break;
+			
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -149,8 +294,25 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		String ret = "";
+		
+		for(char c : string.toCharArray()) {
+			
+			if(c >= 48 && c <= 57) ret += c;
+		}
+		
+		if(ret.charAt(0) == '1') {
+			
+			ret = ret.substring(1);
+		}
+		
+		if(ret.length() != 10) {
+			
+			throw new IllegalArgumentException();
+		}
+		
+		return ret;
 	}
 
 	/**
@@ -163,7 +325,16 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
+		
+		Map<String, Integer> ret = new HashMap<String, Integer>();
+		String temp1 = string.toLowerCase();
+		String temp2 = "";
+		
+		while(temp1 != "") {
+			
+			temp2 = temp1.
+		}
+		
 		return null;
 	}
 
