@@ -4,6 +4,7 @@ import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.lang.Math;
 
 public class EvaluationService {
 
@@ -326,16 +327,16 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		
-		Map<String, Integer> ret = new HashMap<String, Integer>();
-		String temp1 = string.toLowerCase();
-		String temp2 = "";
+		Map<String, Integer> ret = new HashMap<>();
+		String cleanstr = string.toLowerCase().replaceAll("[^a-z]", " ").trim().replaceAll(" +", " ");
+		String[] words = cleanstr.split("\\s+");
 		
-		while(temp1 != "") {
+		for (String s : words) {
 			
-			temp2 = temp1.
+			ret.put(s, 1 + ret.getOrDefault(s, 0));
 		}
 		
-		return null;
+		return ret;
 	}
 
 	/**
@@ -373,12 +374,44 @@ public class EvaluationService {
 	 * binary search is a dichotomic divide and conquer search algorithm.
 	 * 
 	 */
-	static class BinarySearch<T> {
+	static class BinarySearch<T extends Comparable<T>> {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
-			return 0;
+			
+			int min = 0;
+			int max = this.sortedList.size() - 1;
+			int idx;
+			boolean run = true;
+
+			while(run) {
+				
+				idx = (min + max) / 2;
+				System.out.printf("%d %d %d\n", min, max, idx);
+				
+				T obj = this.sortedList.get(idx);
+
+				if(obj.compareTo(t) < 0) {
+					
+					min = idx;
+					if(max - min == 1) {
+						min ++;
+					}
+				}
+				
+				else if (obj.compareTo(t) > 0) {
+
+					max = idx;
+					
+				}
+				
+				else {
+					
+					return idx;
+				}
+				
+			}
+			return -1;
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -414,8 +447,63 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		String ret = "";
+		String cleanstr = string.toLowerCase().replaceAll("[^a-z]", " ").trim().replaceAll(" +", " ");
+		String[] words = cleanstr.split("\\s+");
+		
+		boolean flag = true;
+		
+		System.out.println(cleanstr);
+		
+		for(String temp : words) {
+			
+			System.out.println(temp);
+			flag = true;
+			
+			while(flag) {
+			
+				switch(temp.toCharArray()[0]) {
+				
+				case 'a':
+					ret += temp + "ay ";
+					flag = false;
+					break;
+				
+				case 'e':
+					ret += temp + "ay ";
+					flag = false;
+					break;
+				
+				case 'i':
+					ret += temp + "ay ";
+					flag = false;
+					break;
+				
+				case 'o':
+					ret += temp + "ay ";
+					flag = false;
+					break;
+					
+				case 'u':
+					ret += temp + "ay ";
+					flag = false;
+					break;
+			
+				case 'q':
+					ret += temp.substring(2) + "quay ";
+					flag = false;
+					break;
+					
+				default:
+					temp = temp.substring(1) + temp.toCharArray()[0];
+					break;
+				}
+			}
+		}
+		
+		System.out.println(ret);
+		return ret.trim();
 	}
 
 	/**
@@ -434,8 +522,21 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		
+		int sum = 0;
+		int num = input;
+		int power = new Integer(input).toString().length();
+		int temp;
+		
+		while(num != 0) {
+			
+			temp = num % 10;
+			num /= 10;
+			sum += Math.pow(temp, power);
+			
+		}
+		
+		return sum == input;
 	}
 
 	/**
