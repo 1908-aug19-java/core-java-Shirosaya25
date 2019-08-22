@@ -868,8 +868,22 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		int ret = 0;
+		
+		for (int j = 0 ; j < i ; j++) {
+			
+			for (int k : set) {
+				
+				if (j % k == 0) {
+					
+					ret += j;
+					break;
+				}
+			}
+		}
+		
+		return ret;
 	}
 
 	/**
@@ -909,8 +923,30 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		
+		for(char c : string.toCharArray()) {
+			
+			if(c != 32 && (c < 48 || c > 57)) {
+				
+				return false;
+			}
+		}
+		
+		String cleanstr = this.reverse(string.replaceAll("[^0-9]", "").trim().replaceAll(" ", ""));
+
+		boolean even = false;
+		int sum = 0;
+		int temp = 0;
+		
+		for (char c : cleanstr.toCharArray()) {
+			
+			temp = even ? 2 * (c - 48) : c - 48;
+			sum += (temp > 9) ? temp - 9 : temp;
+			even = !even;
+		}
+		
+		
+		return sum % 10 == 0;
 	}
 
 	/**
@@ -941,8 +977,66 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		String cleanstr = string.toLowerCase().replaceAll("[^-0-9a-z]", " ").trim().replaceAll(" +", " ");
+		
+		int[] nums = {0, 1};
+		
+		int operation = 0;
+		int counter = 0;
+		
+		for (String word : cleanstr.split(" ")) {
+			
+			try {
+				
+				nums[counter] = Integer.parseInt(word);
+				counter ++;
+			}
+			
+			catch(NumberFormatException e) {
+				
+				switch(word) {
+				
+				case "plus":
+					operation = 1;
+					break;
+				
+				case "minus":
+					operation = 2;
+					break;
+					
+				case "multiplied":
+					operation = 3;
+					break;
+					
+				case "divided":
+					operation = 4;
+					break;
+					
+				default:
+					break;
+				}
+			}
+		}
+		
+		switch(operation) {
+		
+			
+		case 1:
+			return nums[0] + nums[1];
+		
+		case 2:
+			return nums[0] - nums[1];
+			
+		case 3:
+			return nums[0] * nums[1];
+			
+		case 4:
+			return nums[0] / nums[1];
+		
+		default:
+			return 0;
+		}
 	}
 
 }
